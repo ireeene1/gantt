@@ -1,0 +1,23 @@
+.DS_Store
+**/node_modules/
+dist/*
+dist
+**/dist/
+/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/.history
+/.vscode
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.laccdb
+~$*.docx
+~$*.xlsx
+.history

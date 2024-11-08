@@ -1,0 +1,17 @@
+{
+  "name": "gantt",
+  "version": "0.0.0",
+  "description": "gantt by javascript",
+  "main": "index.ts",
+  "scripts": {
+    "build": "webpack"
+  },
+  "author": "home_by",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.6.3",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
+  }
+}
