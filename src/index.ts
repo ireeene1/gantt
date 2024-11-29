@@ -1,12 +1,5 @@
+import './assets/css'
 
+import Gantt from "./class"
 
-export default class Gantt {
-    public startTime: String = ''
-    public endTime: String = ''
-
-    constructor(){
-        
-    }
-
-    
-}
+export const createGantt = () => new Gantt();

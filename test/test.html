@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        #gantt{
+            width: 800px;
+            height: 600px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="gantt"></div>
+</body>
+<script src="../dist/index.js"></script>
+<script src="./data.js"></script>
+<script>
+    const { createGantt } = Gantt;
+
+    const gantt = createGantt();
+
+    gantt.mount('#gantt')
+
+    window.g = gantt
+
+</script>
+</html>
