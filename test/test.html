@@ -25,9 +25,16 @@
 <script>
     const { createGantt } = Gantt;
 
+    data.forEach(v => {
+        v.startDate = v.planStartDate
+        v.endDate = v.planEndDate
+    });
+
     const gantt = createGantt();
 
-    gantt.mount('#gantt')
+    gantt.mount('#gantt');
+
+    gantt.setData(data)
 
     window.g = gantt
 

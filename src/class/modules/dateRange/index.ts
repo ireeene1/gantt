@@ -1,4 +1,5 @@
-import { DateRangeMode } from "@/utils"
+import { DateRangeMode, isNumber, getDateTime, formatDate } from "@/utils"
+import { setupRule } from "./rule"
 
 import type Gantt from "@/class"
 
@@ -32,5 +33,37 @@ export const setupPrototypeDateRange = (instance: typeof Gantt) => {
                 }
             }
         }
+    })
+
+    Object.assign(instance.prototype, {
+            //计算日期范围
+        calculateDateRange(this: Gantt){
+            const renderData = this.getRenderData();
+
+            let startTime = null, endTime = null;
+
+            renderData.map(({ startDate, endDate }) => {
+                if(isNumber(startTime)){
+                    startTime = Math.min(startTime, getDateTime(startDate))
+
+                }else{
+                    startTime = getDateTime(startDate)
+                }
+
+                if(isNumber(endTime)){
+                    endTime = Math.max(endTime, getDateTime(endDate))
+
+                }else{
+                    endTime = getDateTime(endDate)
+                }
+            })
+
+            this.startDate = isNumber(startTime) ? formatDate(startTime) : null;
+            this.endDate = isNumber(endTime) ? formatDate(endTime) : null;
+
+            this.setupRule()
+        },
+            //计算日期范围内的元素
+        setupRule
     })
 }

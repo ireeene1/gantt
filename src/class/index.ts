@@ -4,11 +4,10 @@ import {
     setupPrototypeMode, setupPrototypeMount, setupPrototypeDateRange,
 } from "./modules"
 
-import type { ConstructorOption, Mode } from "types"
+import type { ConstructorOption, GanttDataArray, GanttData, Mode, GanttDataId, DateRangeItem } from "types"
 
 class Gantt {
     constructor(option: ConstructorOption = {}){
-        console.log(option)
 
         setupWrapperElement(this)
         setupRule(this)
@@ -30,21 +29,28 @@ class Gantt {
         //模式
     _mode: Mode = 'day'
     dateRangeMode = DateRangeMode.Auto
-    mode
+    mode: Mode
 
         //日期范围
     _startDate: string
     _endDate: string
     startDate
     endDate
+    calculateDateRange: Function
+    setupRule: Function
 
         //刻度
-    _renderRule: Function
+    _rule :{
+        items: DateRangeItem[]
+    } = {
+        items: []
+    }
 
         //数据
-    setData: Function
-    updateData: Function
-    deleteData: Function
+    setData: (t: GanttData | GanttDataArray) => void
+    updateData: (t: GanttData | GanttDataArray) => void
+    deleteData: (id: GanttDataId | GanttDataId[]) => void
+    getRenderData: () => GanttDataArray
 
         //渲染
     render: Function = () => {} 
