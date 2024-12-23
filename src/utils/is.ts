@@ -6,7 +6,8 @@ export const isObject = (target): target is object => typeof target === 'object'
     isFunction = (target): target is Function => typeof target === 'function',
     isNumber = (target): target is number => typeof target === 'number',
     isString = (target): target is string => typeof target === 'string',
-    isValidDate = target => isString(target) && !!target && new Date(target).toString() !== 'Invalid Date',
+    isDate = (target): target is Date => target instanceof Date,
+    isValidDate = target => (isString(target) || isNumber(target)) && !!target && new Date(target).toString() !== 'Invalid Date',
     isHtml = (target): target is HTMLElement => (HTMLElement && typeof HTMLElement === 'object')
                                                     ? target instanceof HTMLElement
                                                     : (target

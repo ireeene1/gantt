@@ -1,7 +1,9 @@
 export interface DateSet {
-    date: Date
+    Date: Date
     dateStr: string
     time: number
     fullYear: number
     month: number
+    date: number
+    day: number
 }

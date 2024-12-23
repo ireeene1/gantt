@@ -1,6 +1,6 @@
-export interface DateRangeItem {
+export interface DateRangeElement {
     id: string
     context: string | number
-    children ?: DateRangeItem[]
+    children ?: DateRangeElement[]
     key ?: any
 }

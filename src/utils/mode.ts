@@ -1,7 +1,13 @@
 import type { Mode } from "../types";
 
     //合法模式列表
-export const ModeList: Mode[] = [ 'day', 'month', 'week', 'custom' ];
+export enum ModeEnum {
+    Day = 'day',
+    Month = 'month',
+    Week = 'week',
+    Custom = 'custom'
+}
+export const ModeList: Mode[] = Object.values(ModeEnum);
 
 export enum DateRangeMode {
     Auto = 'auto',

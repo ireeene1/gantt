@@ -1,4 +1,4 @@
 export enum ClassName {
-    Wrapper = 'homeBy_gantt__wrapper',
-    Rule = 'homeBy_gantt__rule'
+    $container = 'homeBy_gantt__container',
+    $scale = 'homeBy_gantt__scale'
 }

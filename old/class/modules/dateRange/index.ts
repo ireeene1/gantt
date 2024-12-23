@@ -1,33 +1,33 @@
-import { DateRangeMode, isNumber, getDateTime, isDate } from "utils"
-import { setupScaleElements } from "./modules/setupScaleElements"
+import { DateRangeMode, isNumber, getDateTime, formatDate } from "utils"
+import { setupRule } from "./rule"
 
 import type Gantt from "@/class"
 
-export const setupDateRange = (instance:Gantt) => {
-    Object.defineProperties(instance, {
+export const setupPrototypeDateRange = (instance: typeof Gantt) => {
+    Object.defineProperties(instance.prototype, {
         startDate: {
-            get(this: Gantt){
+            get(){
                 return this._startDate
             },
-            set(this: Gantt, v){
-                if(v !== this._startDate && isDate(v)){
+            set(v){
+                if(v !== this._startDate){
                     this._startDate = v
 
-                    if(this.dateRangeMode === DateRangeMode.Auto){
+                    if(this.dateRangeMode === DateRangeMode.Hand){
                         this.render()
                     }
                 }
             }
         },
         endDate: {
-            get(this: Gantt){
+            get(){
                 return this._endDate
             },
-            set(this: Gantt, v){
-                if(v !== this._endDate && isDate(v)){
+            set(v){
+                if(v !== this._endDate){
                     this._endDate = v
 
-                    if(this.dateRangeMode === DateRangeMode.Auto){
+                    if(this.dateRangeMode === DateRangeMode.Hand){
                         this.render()
                     }
                 }
@@ -35,12 +35,14 @@ export const setupDateRange = (instance:Gantt) => {
         }
     })
 
-    Object.assign(instance, {
+    Object.assign(instance.prototype, {
             //计算日期范围
         calculateDateRange(this: Gantt){
+            const renderData = this.getRenderData();
+
             let startTime = null, endTime = null;
 
-            this._renderData.map(({ startDate, endDate }) => {
+            renderData.map(({ startDate, endDate }) => {
                 if(isNumber(startTime)){
                     startTime = Math.min(startTime, getDateTime(startDate))
 
@@ -56,12 +58,12 @@ export const setupDateRange = (instance:Gantt) => {
                 }
             })
 
-            this.startDate = isNumber(startTime) ? new Date(startTime) : null;
-            this.endDate = isNumber(endTime) ? new Date(endTime) : null;
+            this.startDate = isNumber(startTime) ? formatDate(startTime) : null;
+            this.endDate = isNumber(endTime) ? formatDate(endTime) : null;
 
-                //设置刻度元素
-            this._setupScaleElements()
+            this.setupRule()
         },
-        _setupScaleElements: setupScaleElements
+            //计算日期范围内的元素
+        setupRule
     })
 }

@@ -1,63 +1,65 @@
-import { DateRangeMode } from "@/utils"
+import { DateRangeMode } from "@/utils";
 import {
-    setupWrapperElement, setupRule, setupData,
-    setupPrototypeMode, setupPrototypeMount, setupPrototypeDateRange,
-} from "./modules"
+    setupContainerElements,
+    setupMount,
+    setupMode,
+    setupDateRange,
+    setupData
+} from "./modules";
 
-import type { ConstructorOption, GanttDataArray, GanttData, Mode, GanttDataId, DateRangeItem } from "types"
+import type { ConstructorOption, GanttData, GanttDataArray, Mode, GanttDataId, DateRangeElement } from "types";
 
-class Gantt {
-    constructor(option: ConstructorOption = {}){
+export default class Gantt {
+    constructor(option: ConstructorOption){
+        //设置每个容器元素
+        setupContainerElements(this)
+            //设置挂载
+        setupMount(this)
 
-        setupWrapperElement(this)
-        setupRule(this)
+        //设置日期
+            //展示模式
+        setupMode(this)
+            //日期范围
+        setupDateRange(this)
+
+        //设置数据
         setupData(this)
-
-        if(option.mode){
-            this.mode = option.mode
-        }
     }
 
-        //html
-    html = {
+    //元素
+    _htmlElement = {
         $el: HTMLElement = null,           //挂载的元素
-        _el: HTMLDivElement = null,        //容器
-        _rule: HTMLDivElement = null,      //刻度
+        $container: HTMLDivElement = null,        //根容器
+        $scale: HTMLDivElement = null        //刻度根容器
     }
-    mount: Function   //挂载
-
+        //挂载
+    mount: (el: HTMLElement) => Gantt
+    
+    //日期
         //模式
     _mode: Mode = 'day'
-    dateRangeMode = DateRangeMode.Auto
-    mode: Mode
-
+    mode
         //日期范围
-    _startDate: string
-    _endDate: string
-    startDate
-    endDate
-    calculateDateRange: Function
-    setupRule: Function
+    dateRangeMode = DateRangeMode.Auto      //日期范围计算模式 自动 | 手动
+    _startDate: Date
+    startDate: Date
+    _endDate: Date
+    endDate: Date
+    calculateDateRange: Function     //计算日期范围
+    _setupScaleElements: Function    //设置刻度元素
 
-        //刻度
-    _rule :{
-        items: DateRangeItem[]
-    } = {
-        items: []
-    }
-
-        //数据
+    //数据
+    _renderData: GanttDataArray = []         //当前渲染的数据
     setData: (t: GanttData | GanttDataArray) => void
     updateData: (t: GanttData | GanttDataArray) => void
     deleteData: (id: GanttDataId | GanttDataId[]) => void
-    getRenderData: () => GanttDataArray
 
-        //渲染
-    render: Function = () => {} 
+    //渲染
+    render: Function = () => {}
+        //刻度元素
+    _renderElements: {
+        scale: DateRangeElement[]
+    } = {
+        scale: []
+    }
 }
-
-setupPrototypeMode(Gantt)
-setupPrototypeDateRange(Gantt)
-setupPrototypeMount(Gantt)
-
-export default Gantt
