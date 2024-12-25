@@ -39,7 +39,7 @@ window.data = [
         "relationId": 0,
         "status": 0,
         "planStartDate": "2024-12-11",
-        "planEndDate": "2025-01-11",
+        "planEndDate": "2024-12-15",
         "actualStartDate": null,
         "actualEndDate": null,
         "id": "565187697501540352",

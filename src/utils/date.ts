@@ -1,6 +1,9 @@
 import dayjs from 'dayjs'
 import { isDate, isNumber } from './is';
 
+//@ts-ignore
+window.d = dayjs
+
 import type { DateSet } from '@/types';
 
 export function getDateSet(t: string | number | Date): DateSet{

@@ -1,9 +1,11 @@
 export type GanttDataId = string | number
+type GanttDataDate = string | number | Date
 
 export interface GanttData {
     id: GanttDataId
-    startDate: string
-    endDate: string
+    name: string
+    startDate: GanttDataDate
+    endDate: GanttDataDate
 }
 
 export type GanttDataArray = GanttData[]

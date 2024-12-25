@@ -9,12 +9,14 @@ function getYears(startDateSet: DateSet, endDateSet: DateSet): DateRangeElement[
         endYear = endDateSet.fullYear;
 
     for(let i = 0; i < endYear - startYear + 1; i++){
-        const year = startYear + i;
+        const year = startYear + i,
+            date = getDateSet(year).Date
 
         years.push({
             id: String(year),
             context: year,
-            key: year
+            key: year,
+            dateRange: [ date, date ]
         })
     }
 
@@ -30,10 +32,14 @@ function getMonths(yearItem: DateRangeElement, startDateSet: DateSet, endDateSet
         lastMonth = yearItem.key === endFullYear ? endMonth : 11; //取得第一和最后一个月份;
 
     for(let i = firstMonth; i <= lastMonth; i++){
+        const monthId = `${ yearItem.id }-${ i + 1 }`,
+            date = getDateSet(monthId).Date;
+
         months.push({
-            id: `${ yearItem.id }-${ i + 1 }`,
+            id: monthId,
             context: `${ monthText[ i ] }月`,
-            key: i
+            key: i,
+            dateRange: [ date, date ]
         })
     }
 
@@ -76,6 +82,35 @@ function getWeekDays(monthItem: DateRangeElement, yearItem: DateRangeElement, st
 
     return days
 }
+    //周模式下，设置每个天的日期范围
+function _setWeekDaysDateRange(months: DateRangeElement[]){
+        //取得该日期的结束日期
+    function _getSecondRange(day: DateRangeElement, nextDay: DateRangeElement, month: DateRangeElement, nextMonth: DateRangeElement): Date{
+            //有下一天，结束范围就是下一天的起始范围
+        if(nextDay){
+            return getDateSet(nextDay.id).Date
+        }
+
+            //有下一个月，结束范围就是下个月的第一天（本月最后一天的结束范围和下月第一天的起始范围是重叠的）
+        if(nextMonth){
+            return getDateSet(nextMonth.id).Date
+        }
+
+            //啥都没有 就是最终最后一天 返回+1天的时间
+        return new Date(getDateSet(day.id).time + oneDayTime) 
+    }
+
+    months.forEach((month, monthIndex) => {
+        const days = month.children;
+
+        days.forEach((day, dayIndex) => {
+            day.dateRange = [
+                getDateSet(day.id).Date,
+                _getSecondRange(day, days[ dayIndex + 1 ], month, months[ monthIndex + 1 ])
+            ]
+        })
+    })
+}
 
 function getDayDays(monthItem: DateRangeElement, yearItem: DateRangeElement, startDateSet: DateSet, endDateSet: DateSet): DateRangeElement[]{
     const { fullYear: startFullYear, month: startMonth, date: startDate } = startDateSet,
@@ -86,11 +121,17 @@ function getDayDays(monthItem: DateRangeElement, yearItem: DateRangeElement, sta
         lastDay = year === endFullYear && month === endMonth ? endDate : getMonthDayNumber(year, month);
     //取得第一天
 
-    return Array.from({ length: lastDay - firstDay + 1 }, (_, i) => ({
-        id: mergeDateStr(year, month, firstDay + i),
-        context: firstDay + i,
-        key: firstDay + i
-    }));
+    return Array.from({ length: lastDay - firstDay + 1 }, (_, i) => {
+        const dayId = mergeDateStr(year, month, firstDay + i),
+            date = getDateSet(dayId).Date;
+
+        return {
+            id: mergeDateStr(year, month, firstDay + i),
+            context: firstDay + i,
+            key: firstDay + i,
+            dateRange: [ date, date ]
+        }
+    });
 }
 
     //默认获取刻度数据
@@ -102,16 +143,19 @@ function getDefaultScaleDataSet(instance: Gantt): DateRangeElement[]{
 
     const years = getYears(startDateSet, endDateSet);
 
-    years.forEach(year => {
-        const months = getMonths(year, startDateSet, endDateSet);
-        year.children = months
-
-        if(mode === ModeEnum.Day){
-            months.forEach(month => month.children = getDayDays(month, year, startDateSet, endDateSet))
-        }else if(mode === ModeEnum.Week){
-            months.forEach(month => month.children = getWeekDays(month, year, startDateSet, endDateSet))
-        }
-    });
+    if(mode !== ModeEnum.Year){
+        years.forEach(year => {
+            const months = getMonths(year, startDateSet, endDateSet);
+            year.children = months
+    
+            if(mode === ModeEnum.Day){
+                months.forEach(month => month.children = getDayDays(month, year, startDateSet, endDateSet))
+            }else if(mode === ModeEnum.Week){
+                months.forEach(month => month.children = getWeekDays(month, year, startDateSet, endDateSet))
+                _setWeekDaysDateRange(months)
+            }
+        });
+    }
 
     return years
 }

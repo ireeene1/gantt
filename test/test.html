@@ -11,15 +11,19 @@
         }
 
         #gantt{
-            width: 800px;
             height: 600px;
-            border: 1px solid #000;
+            overflow: auto;
         }
     </style>
     <link rel="stylesheet" type="text/css" href="../dist/index.css" />
 </head>
 <body>
     <div id="gantt"></div>
+
+    <button id="day">日</button>
+    <button id="week">周</button>
+    <button id="month">月</button>
+    <button id="year">年</button>
 </body>
 <script src="../dist/index.js"></script>
 <script src="./data.js"></script>
@@ -28,7 +32,8 @@
 
     data.forEach(v => {
         v.startDate = v.planStartDate
-        v.endDate = v.planEndDate
+        v.endDate = v.planEndDate,
+        v.name = v.itemName
     });
 
     const gantt = createGantt();
@@ -38,6 +43,11 @@
     gantt.setData(data)
 
     window.g = gantt
+
+    document.getElementById('day').onclick = () => gantt.mode = 'day';
+    document.getElementById('week').onclick = () => gantt.mode = 'week';
+    document.getElementById('month').onclick = () => gantt.mode = 'month';
+    document.getElementById('year').onclick = () => gantt.mode = 'year';
 
 </script>
 </html>

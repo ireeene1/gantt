@@ -1,1 +1,1 @@
-export type Mode = 'month' | 'week' | 'day' | 'custom'
+export type Mode = 'year' | 'month' | 'week' | 'day' | 'custom'

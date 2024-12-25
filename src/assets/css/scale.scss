@@ -1,9 +1,44 @@
 .homeBy_gantt__scale{
     $borderColor: rgb(239, 239, 245);
     $border: 1px solid $borderColor;
-    min-width: 100%;
+    $elementHeight: 30px;
     color: rgb(31, 34, 37);
     text-align: center;
     border: $border;
     background-color: rgb(250, 250, 252);
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
+        //元素
+    .homeBy_gantt__scale_element{
+        flex: 1 1 auto;
+        border-top: $border;
+        
+        & + .homeBy_gantt__scale_element{
+            border-left: $border;
+        }
+
+            //文字
+        .homeBy_gantt__scale_element__context{
+            width: 100%;
+            height: $elementHeight;
+            line-height: $elementHeight;
+
+                //粘性布局
+            .homeBy_gantt__scale_element__context_sticky{
+                position: sticky;
+                left: 0;
+                right: 0;
+            }
+        }
+
+            //子元素组
+        .homeBy_gantt__scale_element__childrenContent{
+            min-width: 100%;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+    }
 }

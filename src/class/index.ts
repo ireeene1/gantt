@@ -4,17 +4,22 @@ import {
     setupMount,
     setupMode,
     setupDateRange,
-    setupData
+    setupData,
+    setupRender,
+    setupStyle
 } from "./modules";
 
 import type { ConstructorOption, GanttData, GanttDataArray, Mode, GanttDataId, DateRangeElement } from "types";
 
 export default class Gantt {
-    constructor(option: ConstructorOption){
+    constructor(option ?: ConstructorOption){
         //设置每个容器元素
         setupContainerElements(this)
             //设置挂载
         setupMount(this)
+
+        //设置样式
+        setupStyle(this)
 
         //设置日期
             //展示模式
@@ -24,16 +29,31 @@ export default class Gantt {
 
         //设置数据
         setupData(this)
+
+        //设置渲染
+        setupRender(this)
     }
 
     //元素
-    _htmlElement = {
-        $el: HTMLElement = null,           //挂载的元素
-        $container: HTMLDivElement = null,        //根容器
-        $scale: HTMLDivElement = null        //刻度根容器
+    _htmlElement: {
+        $el: HTMLElement,
+        $container: HTMLDivElement,
+        $scale: HTMLDivElement,
+        $row: HTMLDivElement
+    } = {
+        $el: null,           //挂载的元素
+        $container: null,        //根容器
+        $scale: null,       //刻度根容器
+        $row: null          //行数据的根容器
     }
         //挂载
     mount: (el: HTMLElement) => Gantt
+
+    //样式
+    style: {
+        scaleElementWidth ?: number
+    } = {}
+    _setScaleElementBottommostLayerWidth: Function      //设置刻度关键元素的长度
     
     //日期
         //模式
