@@ -66,3 +66,12 @@ export const oneDayTime = 1000 * 60 * 60 * 24;
 export function mergeDateStr(year, month, date){
     return `${ year }-${ String(month + 1).padStart(2, '0') }-${ String(date).padStart(2, '0') }`
 }
+
+/**
+ * 自动补全这个日期至开始日期
+ * @param date
+ * @returns dateTime
+ */
+export function getStartDate(){
+
+}

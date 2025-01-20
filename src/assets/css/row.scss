@@ -1,3 +1,12 @@
 .homeBy_gantt__row{
-    
+    width: 100%;
+    flex: 1;
+    overflow-y: auto;
+
+    .homeBy_gantt__row_item{
+        width: 100%;
+        height: 50px;
+        position: relative;
+        background-color: pink;
+    }
 }

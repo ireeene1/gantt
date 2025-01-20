@@ -1,9 +1,11 @@
 import type { GanttData, GanttDataId } from "@/types";
+import { ClassName } from "@/utils";
 
 const htmlMap = new Map<GanttDataId, HTMLDivElement>
 
 function handleCreate(data: GanttData){
     const div = document.createElement('div')
+    div.classList.add(ClassName.rowItem)
 
     return div
 }

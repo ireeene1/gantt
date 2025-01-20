@@ -11,5 +11,6 @@ export enum ClassName {
     scaleElementContextSticky = `${ prefix }scale_element__context_sticky`,
     scaleElementChildrenContent = `${ prefix }scale_element__childrenContent`,
 
-    $row = `${ prefix }row`
+    $row = `${ prefix }row`,
+    rowItem = `${ prefix }row_item`
 }

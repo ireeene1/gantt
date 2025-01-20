@@ -19,6 +19,8 @@ export function createHtmlNodeList(instance: Gantt){
         }
 
         const htmlNode = createNode(data)
+
+        nodeList.push(htmlNode)
     })
 
     return nodeList
